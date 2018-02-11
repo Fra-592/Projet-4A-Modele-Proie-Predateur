@@ -5,23 +5,25 @@ import java.util.ArrayList;
 import erreurs.CaseOccupeeException;
 import ihm.FenetrePrincipale;
 import life.Animal;
+import life.Loup;
+import life.Mouton;
 
 public class World {
 	
 	private static Case[][] map;
 	private static ArrayList<Animal> animaux;
-	public static int height;
-	public static int width;
+	private static int height;
+	private static int width;
 	public static int nbAnimaux;
 	private static World instance = null;
 	private static ArrayList<Animal> morts;
 	
-	public static void main(String[] args) {
-		new FenetrePrincipale();
-	/*	Loup.initialize();
-		Mouton.initialize();
+	public static void main(String[] args) throws CaseOccupeeException {
 		World.getInstance();
-		for(int i = 0; i < 10; i++) {
+		Loup.initialize();
+		Mouton.initialize();
+
+		/*for(int i = 0; i < 10; i++) {
 			try {
 				new Mouton();
 			} catch (Exception e) {
@@ -34,15 +36,8 @@ public class World {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
-		do {
-			try {
-				World.tour();
-			} catch (CaseOccupeeException e) {
-				e.printStackTrace();
-			}
-		} while(!World.estFini());*/
+		}*/
+		new FenetrePrincipale();
 	}
 	
 	private World(int height, int width) {
@@ -112,5 +107,13 @@ public class World {
 	
 	public static boolean estFini() {
 		return(World.nbAnimaux==0);
+	}
+	
+	public static int getHeight() {
+		return(World.height);
+	}
+	
+	public static int getWidth() {
+		return(World.width);
 	}
 }

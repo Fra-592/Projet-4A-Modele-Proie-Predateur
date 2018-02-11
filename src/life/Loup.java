@@ -1,24 +1,25 @@
 package life;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import environnement.Case;
 import environnement.World;
-import erreurs.CaseInexistanteException;
 import erreurs.CaseOccupeeException;
 
 public class Loup extends Animal{
 	private static int population;
+	private static Color couleur = Color.RED;
 	private static ArrayList<String> proies;
 	
-	public Loup() throws CaseInexistanteException, CaseOccupeeException {
+	public Loup() throws CaseOccupeeException {
 		super(10, 5, 10, 10);
 		System.out.println("Loup spawné en " + this.x + "," + this.y + ".");
 
 		Loup.population++;
 	}
 	
-	public Loup(int xpos, int ypos) throws CaseInexistanteException, CaseOccupeeException {
+	public Loup(int xpos, int ypos) throws CaseOccupeeException {
 		super(xpos, ypos, 10, 5, 10, 10);
 		System.out.println("Loup spawné en " + this.x + "," + this.y + ".");
 
@@ -105,5 +106,9 @@ public class Loup extends Animal{
 	
 	public int getCount() {
 		return(Loup.population);
+	}
+	
+	public Color getCouleur() {
+		return(Loup.couleur);
 	}
 }

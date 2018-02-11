@@ -1,14 +1,15 @@
 package life;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import environnement.Case;
 import environnement.World;
-import erreurs.CaseInexistanteException;
 import erreurs.CaseOccupeeException;
 
 public class Mouton extends Animal{
 	private static int population;
+	private static Color couleur = Color.WHITE;
 	private static ArrayList<String> predateurs;
 	
 	public static void initialize() {
@@ -17,13 +18,13 @@ public class Mouton extends Animal{
 		Mouton.population = 0;
 	}
 	
-	public Mouton() throws CaseInexistanteException, CaseOccupeeException {
+	public Mouton() throws CaseOccupeeException {
 		super(10, 10, 4, 4);
 		System.out.println("Mouton spawné en " + this.x + "," + this.y + ".");
 		Mouton.population++;
 	}
 	
-	public Mouton(int xpos, int ypos) throws CaseInexistanteException, CaseOccupeeException {
+	public Mouton(int xpos, int ypos) throws CaseOccupeeException {
 		super(xpos, ypos, 10, 10, 4, 4);
 		System.out.println("Mouton spawné en " + this.x + "," + this.y + ".");
 		Mouton.population++;
@@ -95,5 +96,9 @@ public class Mouton extends Animal{
 	
 	public void estAttaque() {
 		this.vie = 0;
+	}
+	
+	public Color getCouleur() {
+		return(Mouton.couleur);
 	}
 }

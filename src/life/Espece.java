@@ -1,4 +1,4 @@
-package environnement;
+package life;
 
 public enum Espece {
 	LOUP,

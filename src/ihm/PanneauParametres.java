@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import environnement.Espece;
+import life.Espece;
 
 @SuppressWarnings("serial")
 public class PanneauParametres extends JPanel{

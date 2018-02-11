@@ -1,5 +1,6 @@
 package life;
 
+import java.awt.Color;
 import java.util.Random;
 
 import environnement.World;
@@ -12,6 +13,7 @@ public class Animal {
 	protected int vie;
 	protected int vue;
 	protected int vitesse;
+	protected Color couleur;
 	
 	public Animal(int x, int y, int nourriture, int vie, int vue, int vitesse) throws CaseOccupeeException {
 		System.out.println("Création animal.");
@@ -28,8 +30,8 @@ public class Animal {
 		int essais = 0;
 		Random generateur = new Random();
 		do {
-			this.x = generateur.nextInt(World.height);
-			this.y = generateur.nextInt(World.width);
+			this.x = generateur.nextInt(World.getWidth());
+			this.y = generateur.nextInt(World.getHeight());
 			essais++;
 		} while(!World.getCase(this.x, this.y).estVide() && essais < (this.vue*4));
 		this.nourriture = nourriture;
@@ -61,13 +63,13 @@ public class Animal {
 			World.getCase(this.x, this.y).delOccupant();
 			World.getCase(x, y).setOccupant(this);
 			while(x < 0) {
-				x += World.height;
+				x += World.getWidth();
 			}
 			while(y < 0) {
-				y += World.width;
+				y += World.getHeight();
 			}
-			x = x%(World.height);
-			y = y%(World.width);
+			x = x%(World.getWidth());
+			y = y%(World.getHeight());
 			this.x = x;
 			this.y = y;
 		} catch (CaseOccupeeException e) {
@@ -114,5 +116,9 @@ public class Animal {
 	
 	public boolean estEnVie() {
 		return((this.vie > 0 && this.nourriture > 0));
+	}
+
+	public Color getCouleur() {
+		return(this.getCouleur());
 	}
 }
