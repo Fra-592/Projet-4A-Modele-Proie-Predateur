@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import erreurs.CaseOccupeeException;
 import ihm.FenetrePrincipale;
 import life.Animal;
+import life.Espece;
+import life.GenerateurAnimal;
 import life.Loup;
 import life.Mouton;
 
@@ -59,6 +61,12 @@ public class World {
 			World.instance = new World(50, 50);
 		}
 		return(World.instance);
+	}
+	
+	public static void spawnAnimal(Espece e, int x, int y) throws CaseOccupeeException {
+		GenerateurAnimal generateur = new GenerateurAnimal();
+		generateur.creerAnimal(e, x, y);
+		System.out.println("Vous avez ajouté un " + e + " en " + x + "," + y +".");
 	}
 	
 	public static void addAnimal(Animal a) throws CaseOccupeeException {

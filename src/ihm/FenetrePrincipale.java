@@ -20,7 +20,7 @@ public class FenetrePrincipale extends JFrame{
 		
 		ajoutEspeces = new PanneauParametres();
 		this.add(ajoutEspeces, BorderLayout.NORTH);
-		affichageSimulation = new PanneauAffichage();
+		affichageSimulation = new PanneauAffichage(ajoutEspeces);
 		this.add(affichageSimulation, BorderLayout.CENTER);
 		controleSimulation = new PanneauControle();
 		this.add(controleSimulation, BorderLayout.SOUTH);

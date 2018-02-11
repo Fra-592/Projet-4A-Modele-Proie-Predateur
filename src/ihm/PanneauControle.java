@@ -26,7 +26,4 @@ public class PanneauControle extends JPanel{
 		btnPause = new JButton("Pause");
 		this.add(btnPause);
 	}
-	
-	public void paintComponent(Graphics g) {
-	}
 }

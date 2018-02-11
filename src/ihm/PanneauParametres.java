@@ -11,20 +11,17 @@ import life.Espece;
 
 @SuppressWarnings("serial")
 public class PanneauParametres extends JPanel{
-	private JComboBox<Object> choixEspece;
+	public JComboBox<Espece> choixEspece;
 	private JButton btnReset;
 	private JButton btnQuitter;
 	
 	public PanneauParametres() {
 		this.setLayout(new FlowLayout());
-		choixEspece = new JComboBox<Object>(Espece.values());
+		choixEspece = new JComboBox<Espece>(Espece.values());
 		this.add(choixEspece);
 		btnReset = new JButton("Réinitialiser");
 		this.add(btnReset);
 		btnQuitter = new JButton("Quitter");
 		this.add(btnQuitter);
-	}
-	
-	public void paintComponent(Graphics g) {
 	}
 }
