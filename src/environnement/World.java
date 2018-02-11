@@ -3,9 +3,8 @@ package environnement;
 import java.util.ArrayList;
 
 import erreurs.CaseOccupeeException;
+import ihm.FenetrePrincipale;
 import life.Animal;
-import life.Loup;
-import life.Mouton;
 
 public class World {
 	
@@ -17,8 +16,9 @@ public class World {
 	private static World instance = null;
 	private static ArrayList<Animal> morts;
 	
-	/*public static void main(String[] args) {
-		Loup.initialize();
+	public static void main(String[] args) {
+		new FenetrePrincipale();
+	/*	Loup.initialize();
 		Mouton.initialize();
 		World.getInstance();
 		for(int i = 0; i < 10; i++) {
@@ -42,15 +42,15 @@ public class World {
 			} catch (CaseOccupeeException e) {
 				e.printStackTrace();
 			}
-		} while(!World.estFini());
-	}*/
+		} while(!World.estFini());*/
+	}
 	
 	private World(int height, int width) {
 		World.height = height;
 		World.width = width;
-		World.map = new Case[height][width];
-		for(int i = 0; i < height; i++) {
-			for(int j = 0; j < width; j++) {
+		World.map = new Case[width][height];
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
 				map[i][j] = new Case(i, j);
 			}
 		}
@@ -91,13 +91,13 @@ public class World {
 	
 	public static Case getCase(int x, int y) {
 		while(x < 0) {
-			x += World.height;
+			x += World.width;
 		}
 		while(y < 0) {
-			y += World.width;
+			y += World.height;
 		}
-		x = x%(World.height);
-		y = y%(World.width);
+		x = x%(World.width);
+		y = y%(World.height);
 
 		return(World.map[x][y]);
 	}
