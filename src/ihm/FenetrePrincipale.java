@@ -44,6 +44,7 @@ public class FenetrePrincipale extends JFrame{
 	//Contrôle simulation
 	public void endSimulation()
 	{
+		simulation.quit();
 		if(thread != null && thread.isAlive()) {
 			thread.interrupt();
 		}

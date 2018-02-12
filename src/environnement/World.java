@@ -20,6 +20,7 @@ public class World {
 	private static ArrayList<Animal> morts;
 	private static ArrayList<Animal> naissances;
 	private static GenerateurAnimal generateur;
+	private static boolean fini;
 	
 	public static void main(String[] args) throws CaseOccupeeException {
 		World.getInstance();
@@ -58,6 +59,7 @@ public class World {
 		World.morts = new ArrayList<Animal>();
 		World.naissances = new ArrayList<Animal>();
 		World.generateur = new GenerateurAnimal();
+		World.fini = false;
 	}
 	
 	public static World getInstance() {
@@ -144,5 +146,13 @@ public class World {
 		}
 		World.delMorts();
 		World.spawnAnimaux();
+	}
+
+	public static boolean estTermine( ) {
+		return(World.fini);
+	}
+	
+	public static void terminer() {
+		World.fini = true;
 	}
 }

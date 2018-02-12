@@ -11,11 +11,13 @@ public class Simulation implements Runnable {
 	public Simulation(FenetrePrincipale f) {
 		this.f = f;
 		this.enCours = false;
+		System.out.println(3);
 	}
 	
 	public void run() {
 		//Condition de fin ici
-		while(true) {
+		while(!World.estTermine()) {
+			System.out.println(2);
 			this.tour();
 		}
 	}
@@ -24,6 +26,7 @@ public class Simulation implements Runnable {
 		synchronized (moniteur) {
 			if(enCours) {
 				//Magic Goes Here
+				System.out.println(1);
 				f.repaint();
 			} else {
 				try {
@@ -43,5 +46,9 @@ public class Simulation implements Runnable {
 	public void pause()
 	{
 		this.enCours = false;
+	}
+
+	public void quit() {
+		World.terminer();
 	}
 }
