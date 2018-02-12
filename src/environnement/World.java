@@ -20,7 +20,6 @@ public class World {
 	private static ArrayList<Animal> morts;
 	private static ArrayList<Animal> naissances;
 	private static GenerateurAnimal generateur;
-	private static FenetrePrincipale fenetre;
 	
 	public static void main(String[] args) throws CaseOccupeeException {
 		World.getInstance();
@@ -41,7 +40,7 @@ public class World {
 				e.printStackTrace();
 			}
 		}*/
-		World.fenetre = new FenetrePrincipale();
+		new FenetrePrincipale();
 	}
 	
 	
@@ -145,10 +144,5 @@ public class World {
 		}
 		World.delMorts();
 		World.spawnAnimaux();
-	}
-	
-	public static void prematureEnd() {
-		fenetre.killSimulation();
-		fenetre.displayStats();
 	}
 }

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import environnement.Simulation;
+
 @SuppressWarnings("serial")
 public class FenetrePrincipale extends JFrame{
 
@@ -11,8 +13,8 @@ public class FenetrePrincipale extends JFrame{
 	public PanneauInitialisation ajoutEspeces;
 	public PanneauControle controleSimulation;
 	private PanneauLegende legendeAffichage;
-	private PanneauStats affichageStats;
 	private Thread thread;
+	private Simulation simulation;
 	
 	public FenetrePrincipale() {
 		this.setTitle("Wildlife Simulator v1.0");
@@ -33,19 +35,39 @@ public class FenetrePrincipale extends JFrame{
 		//Adaptation taille
 		this.setSize(100+affichageSimulation.getWidth(),100+affichageSimulation.getHeight());
 		this.setVisible(true);
+		simulation = new Simulation(this);
+		thread = new Thread(simulation);
+		thread.run();
 	}
 	
-	public void killSimulation()
+	
+	//Contrôle simulation
+	public void endSimulation()
 	{
-		thread.interrupt();
-		
-		this.remove(affichageSimulation);
-		this.remove(ajoutEspeces);
-		this.remove(controleSimulation);
+		if(thread != null && thread.isAlive()) {
+			thread.interrupt();
+		}
+		//new FenetreStats();
 	}
 	
-	public void displayStats() {
-		affichageStats = new PanneauStats();
-		this.add(affichageStats);
+	public void quitSimulation() {
+		this.endSimulation();
+		this.dispose();
+	}
+
+	public void startSimulation() {
+		System.out.println("GO");
+		simulation.play();
+	}
+
+	public void pauseSimulation() {
+		simulation.pause();
+		System.out.println("PAUSE");
+	}
+
+
+	public void playSimulation() {
+		System.out.println("REGO");
+		simulation.play();
 	}
 }

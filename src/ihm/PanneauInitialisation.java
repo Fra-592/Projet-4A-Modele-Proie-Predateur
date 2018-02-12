@@ -17,9 +17,11 @@ public class PanneauInitialisation extends JPanel{
 	public JComboBox<Espece> choixEspece;
 	private JButton btnReset;
 	private JButton btnQuitter;
+	private FenetrePrincipale f;
 	
 	public PanneauInitialisation(FenetrePrincipale f) {
 		this.setLayout(new FlowLayout());
+		this.f = f;
 		
 		this.add(new JLabel("Ajouter un:"));
 		
@@ -49,7 +51,7 @@ public class PanneauInitialisation extends JPanel{
 	
 	private class EndAction implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			World.prematureEnd();
+			f.quitSimulation();
 		}
 	}
 }
