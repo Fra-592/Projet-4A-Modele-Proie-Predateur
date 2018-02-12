@@ -1,8 +1,6 @@
 package ihm;
 
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +13,7 @@ public class PanneauControle extends JPanel{
 	private JSlider setSpeed;
 	private JLabel	lbSpeed;
 	
-	public PanneauControle() {
+	public PanneauControle(FenetrePrincipale f) {
 		this.setLayout(new FlowLayout());
 		lbSpeed = new JLabel("Vitesse");
 		this.add(lbSpeed);

@@ -9,7 +9,6 @@ public class CaseOccupeeException extends Exception{
 		System.out.println("La case " + x + "," + y + " est déjà occupée.");
 		this.x = x;
 		this.y = y;
-		this.printStackTrace();
 		new FenetreErreur(this);
 	}
 	

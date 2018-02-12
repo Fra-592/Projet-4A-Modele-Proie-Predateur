@@ -16,9 +16,11 @@ public class World {
 	private static ArrayList<Animal> animaux;
 	private static int height;
 	private static int width;
-	public static int nbAnimaux;
 	private static World instance = null;
 	private static ArrayList<Animal> morts;
+	private static ArrayList<Animal> naissances;
+	private static GenerateurAnimal generateur;
+	private static FenetrePrincipale fenetre;
 	
 	public static void main(String[] args) throws CaseOccupeeException {
 		World.getInstance();
@@ -39,9 +41,11 @@ public class World {
 				e.printStackTrace();
 			}
 		}*/
-		new FenetrePrincipale();
+		World.fenetre = new FenetrePrincipale();
 	}
 	
+	
+	//Création & initialisation
 	private World(int height, int width) {
 		World.height = height;
 		World.width = width;
@@ -51,9 +55,10 @@ public class World {
 				map[i][j] = new Case(i, j);
 			}
 		}
-		World.nbAnimaux = 0;
 		World.animaux = new ArrayList<Animal>();
 		World.morts = new ArrayList<Animal>();
+		World.naissances = new ArrayList<Animal>();
+		World.generateur = new GenerateurAnimal();
 	}
 	
 	public static World getInstance() {
@@ -63,31 +68,51 @@ public class World {
 		return(World.instance);
 	}
 	
-	public static void spawnAnimal(Espece e, int x, int y) throws CaseOccupeeException {
-		GenerateurAnimal generateur = new GenerateurAnimal();
+	public static void reset() {
+		System.out.println("Réinitialisation.");
+		World.instance = null;
+		World.getInstance();
+	}
+	
+	
+	//Gestion des spawns
+	public static void placeAnimal(Espece e, int x, int y) {
 		generateur.creerAnimal(e, x, y);
-		System.out.println("Vous avez ajouté un " + e + " en " + x + "," + y +".");
+		World.spawnAnimaux();
 	}
 	
-	public static void addAnimal(Animal a) throws CaseOccupeeException {
-		World.animaux.add(a);
-		World.nbAnimaux++;
-		World.getCase(a.getX(), a.getY()).setOccupant(a);
+	public static void queueAnimal(Animal a) {
+		World.naissances.add(a);
 	}
 	
-	public static void addMort(Animal a) {
+	public static void spawnAnimaux() {
+		for(Animal a: World.naissances) {
+			World.animaux.add(a);
+			try {
+				World.getCase(a.getX(), a.getY()).setOccupant(a);
+			} catch (CaseOccupeeException e) {
+				e.printStackTrace();
+			}
+		}
+		World.naissances.clear();
+	}
+	
+	
+	//Gestion des morts
+	public static void queueMort(Animal a) {
 		World.morts.add(a);
-		World.nbAnimaux--;
 	}
 	
-	public static void appMorts() {
-		for(Animal a: morts) {
+	public static void delMorts() {
+		for(Animal a: World.morts) {
 			World.animaux.remove(a);
 			World.getCase(a.getX(), a.getY()).delOccupant();
 		}
 		World.morts.clear();
 	}
 	
+	
+	//Accesseurs et modifieurs
 	public static ArrayList<Animal> getAnimaux(){
 		return(World.animaux);
 	}
@@ -105,23 +130,25 @@ public class World {
 		return(World.map[x][y]);
 	}
 	
-	public static void tour() throws CaseOccupeeException {
-		for(Animal a: World.animaux) {
-			System.out.println(World.nbAnimaux);
-			a.tour();
-		}
-		World.appMorts();
-	}
-	
-	public static boolean estFini() {
-		return(World.nbAnimaux==0);
-	}
-	
 	public static int getHeight() {
 		return(World.height);
 	}
 	
 	public static int getWidth() {
 		return(World.width);
+	}
+	
+	//Simulation
+	public static void tour() throws CaseOccupeeException {
+		for(Animal a: World.animaux) {
+			a.tour();
+		}
+		World.delMorts();
+		World.spawnAnimaux();
+	}
+	
+	public static void prematureEnd() {
+		fenetre.killSimulation();
+		fenetre.displayStats();
 	}
 }

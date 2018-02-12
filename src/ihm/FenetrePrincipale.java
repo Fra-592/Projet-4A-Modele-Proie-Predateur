@@ -7,9 +7,12 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class FenetrePrincipale extends JFrame{
 
-	private PanneauAffichage affichageSimulation;
-	private PanneauParametres ajoutEspeces;
-	private PanneauControle controleSimulation;
+	public PanneauAffichage affichageSimulation;
+	public PanneauInitialisation ajoutEspeces;
+	public PanneauControle controleSimulation;
+	private PanneauLegende legendeAffichage;
+	private PanneauStats affichageStats;
+	private Thread thread;
 	
 	public FenetrePrincipale() {
 		this.setTitle("Wildlife Simulator v1.0");
@@ -18,13 +21,31 @@ public class FenetrePrincipale extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
 		
-		ajoutEspeces = new PanneauParametres();
+		ajoutEspeces = new PanneauInitialisation(this);
 		this.add(ajoutEspeces, BorderLayout.NORTH);
-		affichageSimulation = new PanneauAffichage(ajoutEspeces);
+		affichageSimulation = new PanneauAffichage(this);
 		this.add(affichageSimulation, BorderLayout.CENTER);
-		controleSimulation = new PanneauControle();
+		controleSimulation = new PanneauControle(this);
 		this.add(controleSimulation, BorderLayout.SOUTH);
-		this.setSize(affichageSimulation.getWidth(),100+affichageSimulation.getHeight());
+		legendeAffichage = new PanneauLegende();
+		this.add(legendeAffichage, BorderLayout.EAST);
+		
+		//Adaptation taille
+		this.setSize(100+affichageSimulation.getWidth(),100+affichageSimulation.getHeight());
 		this.setVisible(true);
+	}
+	
+	public void killSimulation()
+	{
+		thread.interrupt();
+		
+		this.remove(affichageSimulation);
+		this.remove(ajoutEspeces);
+		this.remove(controleSimulation);
+	}
+	
+	public void displayStats() {
+		affichageStats = new PanneauStats();
+		this.add(affichageStats);
 	}
 }

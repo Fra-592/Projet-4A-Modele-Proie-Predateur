@@ -13,17 +13,16 @@ public class Animal {
 	protected int vie;
 	protected int vue;
 	protected int vitesse;
-	protected Color couleur;
+	protected  Color couleur;
 	
-	public Animal(int x, int y, int nourriture, int vie, int vue, int vitesse) throws CaseOccupeeException {
-		System.out.println("Création animal.");
+	public Animal(int x, int y, int nourriture, int vie, int vue, int vitesse) {
 		this.x = x;
 		this.y = y;
 		this.nourriture = nourriture;
 		this.vie = vie;
 		this.vue = vue;
 		this.vitesse = vitesse;
-		World.addAnimal(this);
+		World.queueAnimal(this);
 	}
 	
 	public Animal(int nourriture, int vie, int vue, int vitesse) throws CaseOccupeeException {
@@ -38,7 +37,7 @@ public class Animal {
 		this.vie = vie;
 		this.vue = vue;
 		this.vitesse = vitesse;
-		World.addAnimal(this);
+		World.queueAnimal(this);
 	}
 	
 	protected void cherche() {
@@ -86,7 +85,7 @@ public class Animal {
 	}
 	
 	protected void meurt() {
-		World.addMort(this);
+		World.queueMort(this);
 	}
 	
 	protected boolean aFaim() {

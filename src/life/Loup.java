@@ -9,8 +9,8 @@ import erreurs.CaseOccupeeException;
 
 public class Loup extends Animal{
 	private static int population;
-	private static Color couleur = Color.RED;
 	private static ArrayList<String> proies;
+	private static Color couleur;
 	
 	public Loup() throws CaseOccupeeException {
 		super(10, 5, 10, 10);
@@ -19,7 +19,7 @@ public class Loup extends Animal{
 		Loup.population++;
 	}
 	
-	public Loup(int xpos, int ypos) throws CaseOccupeeException {
+	public Loup(int xpos, int ypos) {
 		super(xpos, ypos, 10, 5, 10, 10);
 		System.out.println("Loup spawné en " + this.x + "," + this.y + ".");
 
@@ -31,6 +31,7 @@ public class Loup extends Animal{
 		Loup.proies = new ArrayList<String>();
 		Loup.proies.add("life.Mouton");
 		Loup.population = 0;
+		Loup.couleur = Color.GRAY;
 	}
 	
 	@Override
@@ -108,7 +109,12 @@ public class Loup extends Animal{
 		return(Loup.population);
 	}
 	
+	@SuppressWarnings("static-access")
 	public Color getCouleur() {
+		return(Loup.couleur);
+	}
+	
+	public static Color getColor() {
 		return(Loup.couleur);
 	}
 }

@@ -9,13 +9,15 @@ import erreurs.CaseOccupeeException;
 
 public class Mouton extends Animal{
 	private static int population;
-	private static Color couleur = Color.WHITE;
 	private static ArrayList<String> predateurs;
+	private static Color couleur;
+
 	
 	public static void initialize() {
 		Mouton.predateurs = new ArrayList<String>();
 		Mouton.predateurs.add("life.Loup");
 		Mouton.population = 0;
+		Mouton.couleur = Color.WHITE;
 	}
 	
 	public Mouton() throws CaseOccupeeException {
@@ -24,7 +26,7 @@ public class Mouton extends Animal{
 		Mouton.population++;
 	}
 	
-	public Mouton(int xpos, int ypos) throws CaseOccupeeException {
+	public Mouton(int xpos, int ypos) {
 		super(xpos, ypos, 10, 10, 4, 4);
 		System.out.println("Mouton spawné en " + this.x + "," + this.y + ".");
 		Mouton.population++;
@@ -98,7 +100,12 @@ public class Mouton extends Animal{
 		this.vie = 0;
 	}
 	
+	@SuppressWarnings("static-access")
 	public Color getCouleur() {
+		return(Mouton.couleur);
+	}
+	
+	public static Color getColor() {
 		return(Mouton.couleur);
 	}
 }

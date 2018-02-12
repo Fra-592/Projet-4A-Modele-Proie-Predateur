@@ -1,10 +1,8 @@
 package life;
 
-import erreurs.CaseOccupeeException;
-
 public class GenerateurAnimal {
 	
-	public Animal creerAnimal(Espece espece, int x, int y) throws CaseOccupeeException {
+	public Animal creerAnimal(Espece espece, int x, int y) {
 		Animal animal = null;
 		switch(espece) {
 			case LOUP: animal = new Loup(x, y);break;
