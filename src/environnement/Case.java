@@ -31,7 +31,6 @@ public class Case {
 			throw new CaseOccupeeException(this.x, this.y);
 		} else {
 			this.occupant = a;
-			System.out.println("Animal posé en " + x + "," + y + ".");
 		}
 	}
 }

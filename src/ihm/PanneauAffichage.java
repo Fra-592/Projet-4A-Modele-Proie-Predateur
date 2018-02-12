@@ -15,15 +15,16 @@ import life.Espece;
 public class PanneauAffichage extends JPanel{
 	
 	private PanneauInitialisation controles;
+	private Clic lClic;
 	
 	public PanneauAffichage(FenetrePrincipale f) {
 		this.setLayout(null);
-		this.setSize(10*World.getHeight(),10*World.getWidth());
+		this.setSize(10*World.getWidth(),10*World.getHeight());
 		this.controles = f.ajoutEspeces;
-		this.addMouseListener(new Clic());
+		this.lClic = new Clic();
+		this.addMouseListener(lClic);
 	}
 	
-	@SuppressWarnings("static-access")
 	public void paintComponent(Graphics g) {
 		super.repaint();
 		g.setColor(Color.BLACK);
@@ -58,5 +59,9 @@ public class PanneauAffichage extends JPanel{
 				World.placeAnimal(espece, x, y);
 			}
 		}
+	}
+
+	public void killListeners() {
+		this.removeMouseListener(lClic);
 	}
 }

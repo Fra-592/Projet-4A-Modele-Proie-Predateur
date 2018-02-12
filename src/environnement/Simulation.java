@@ -1,5 +1,8 @@
 package environnement;
 
+import java.util.concurrent.TimeUnit;
+
+import erreurs.CaseOccupeeException;
 import ihm.FenetrePrincipale;
 
 public class Simulation implements Runnable {
@@ -11,29 +14,27 @@ public class Simulation implements Runnable {
 	public Simulation(FenetrePrincipale f) {
 		this.f = f;
 		this.enCours = false;
-		System.out.println(3);
 	}
 	
 	public void run() {
-		//Condition de fin ici
 		while(!World.estTermine()) {
-			System.out.println(2);
-			this.tour();
-		}
-	}
-	
-	public void tour() {
-		synchronized (moniteur) {
-			if(enCours) {
-				//Magic Goes Here
-				System.out.println(1);
-				f.repaint();
-			} else {
-				try {
-					moniteur.wait();
-				} catch (InterruptedException e) {}
+			synchronized (moniteur) {
+				if(enCours) {
+					try {
+						World.tour();
+						TimeUnit.MILLISECONDS.sleep(10000/f.controleSimulation.getSpeedValue());
+					} catch (CaseOccupeeException | InterruptedException e) {
+						e.printStackTrace();
+					}
+					f.repaint();
+				} else {
+					try {
+						moniteur.wait();
+					} catch (InterruptedException e) {}
+				}
 			}
 		}
+		this.end();
 	}
 	
 	public void play() {
@@ -50,5 +51,9 @@ public class Simulation implements Runnable {
 
 	public void quit() {
 		World.terminer();
+	}
+	
+	public void end() {
+		f.killListeners();
 	}
 }

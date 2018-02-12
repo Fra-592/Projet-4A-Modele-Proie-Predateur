@@ -8,7 +8,6 @@ import environnement.World;
 import erreurs.CaseOccupeeException;
 
 public class Mouton extends Animal{
-	private static int population;
 	private static ArrayList<String> predateurs;
 	private static Color couleur;
 
@@ -16,42 +15,34 @@ public class Mouton extends Animal{
 	public static void initialize() {
 		Mouton.predateurs = new ArrayList<String>();
 		Mouton.predateurs.add("life.Loup");
-		Mouton.population = 0;
 		Mouton.couleur = Color.WHITE;
 	}
 	
 	public Mouton() throws CaseOccupeeException {
-		super(10, 10, 4, 4);
-		System.out.println("Mouton spawné en " + this.x + "," + this.y + ".");
-		Mouton.population++;
+		super(30, 25, 10, 4);
 	}
 	
 	public Mouton(int xpos, int ypos) {
-		super(xpos, ypos, 10, 10, 4, 4);
-		System.out.println("Mouton spawné en " + this.x + "," + this.y + ".");
-		Mouton.population++;
+		super(xpos, ypos, 30, 25, 10, 4);
 	}
 	
 	
 	@Override
 	public void tour() throws CaseOccupeeException {
-		Animal cible;
-		if(this.cherchePredateurs()) {
-			cible = this.getProchePredateur();
-			this.aPeurDe(cible);
+		if(this.estEnVie()) {
+			Animal cible;
+			if(this.cherchePredateurs()) {
+				cible = this.getProchePredateur();
+				this.aPeurDe(cible);
+				this.fuit(cible);
+			} else {
+				this.cherche();
+			}
+			this.vieillit();
 		} else {
-			this.cherche();
+			this.meurt();
 		}
-		this.vieillit();
 	}
-	
-	@Override
-	protected void meurt() {
-		super.meurt();
-		Mouton.population--;
-		System.out.println("Mouton mort en " + this.x + "," + this.y + ".");
-	}
-	
 
 	private boolean cherchePredateurs() {
 		Animal cible;
@@ -64,7 +55,6 @@ public class Mouton extends Animal{
 				if(!tcase.estVide()) {
 					cible = tcase.getOccupant();
 					if(this.aPeurDe(cible)) {
-						System.out.println("Mouton voit un loup.");
 						return(true);
 					}
 				}
@@ -79,8 +69,8 @@ public class Mouton extends Animal{
 		double distancemin = Double.MAX_VALUE;
 		double distance;
 		for(Animal a: liste) {
-			distance = Math.sqrt(Math.pow(this.x - a.x, 2) + Math.pow(this.y - a.y, 2));
-			if(distance < distancemin) {
+			distance = Math.abs(this.x - a.x) + Math.abs(this.y - a.y);
+			if(distance < distancemin && this.aPeurDe(a)) {
 				pproche = a;
 				distancemin = distance;
 			}
@@ -92,17 +82,28 @@ public class Mouton extends Animal{
 		return(Mouton.predateurs.contains(cible.getClass().getName()));
 	}
 	
-	public int getPopulation() {
-		return(Mouton.population);
-	}
-	
-	public void estAttaque() {
-		this.vie = 0;
-	}
-	
-	@SuppressWarnings("static-access")
 	public Color getCouleur() {
 		return(Mouton.couleur);
+	}
+	
+	public void fuit(Animal cible) {
+		int xdir = 0;
+		int ydir = 0;
+		
+		if(this.x != cible.x) {
+			xdir = (this.x - cible.x)/Math.abs(this.x - cible.x);
+		}
+		if(this.y != cible.y) {
+			ydir = (this.y - cible.y)/Math.abs(this.y - cible.y);
+		}
+		try {
+			xdir = this.x + (xdir * this.vitesse)/(Math.abs(xdir) + Math.abs(ydir));
+			ydir = this.y + (ydir * this.vitesse)/(Math.abs(xdir) + Math.abs(ydir));
+		} catch(ArithmeticException e) {
+			System.out.println(xdir + ydir);
+		}
+
+		this.bouge(xdir, ydir);
 	}
 	
 	public static Color getColor() {

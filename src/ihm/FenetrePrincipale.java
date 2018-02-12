@@ -13,7 +13,6 @@ public class FenetrePrincipale extends JFrame{
 	public PanneauInitialisation ajoutEspeces;
 	public PanneauControle controleSimulation;
 	private PanneauLegende legendeAffichage;
-	private Thread thread;
 	private Simulation simulation;
 	
 	public FenetrePrincipale() {
@@ -35,9 +34,9 @@ public class FenetrePrincipale extends JFrame{
 		//Adaptation taille
 		this.setSize(100+affichageSimulation.getWidth(),100+affichageSimulation.getHeight());
 		this.setVisible(true);
+		
 		simulation = new Simulation(this);
-		thread = new Thread(simulation);
-		thread.run();
+		new Thread(simulation).run();
 	}
 	
 	
@@ -45,14 +44,12 @@ public class FenetrePrincipale extends JFrame{
 	public void endSimulation()
 	{
 		simulation.quit();
-		if(thread != null && thread.isAlive()) {
-			thread.interrupt();
-		}
-		//new FenetreStats();
+		//Éventuellement affichage stats.
 	}
 	
 	public void quitSimulation() {
 		this.endSimulation();
+		simulation.play();
 		this.dispose();
 	}
 
@@ -68,7 +65,13 @@ public class FenetrePrincipale extends JFrame{
 
 
 	public void playSimulation() {
-		System.out.println("REGO");
+		System.out.println("CONTINUE");
 		simulation.play();
+	}
+	
+	public void killListeners() {
+		affichageSimulation.killListeners();
+		controleSimulation.killListeners();
+		ajoutEspeces.killListeners();
 	}
 }

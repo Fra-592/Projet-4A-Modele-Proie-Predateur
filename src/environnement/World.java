@@ -21,26 +21,13 @@ public class World {
 	private static ArrayList<Animal> naissances;
 	private static GenerateurAnimal generateur;
 	private static boolean fini;
+	private static int tours;
 	
 	public static void main(String[] args) throws CaseOccupeeException {
 		World.getInstance();
 		Loup.initialize();
 		Mouton.initialize();
 
-		/*for(int i = 0; i < 10; i++) {
-			try {
-				new Mouton();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		for(int i = 0; i < 3; i++) {
-			try {
-				new Loup();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}*/
 		new FenetrePrincipale();
 	}
 	
@@ -60,11 +47,12 @@ public class World {
 		World.naissances = new ArrayList<Animal>();
 		World.generateur = new GenerateurAnimal();
 		World.fini = false;
+		World.tours = 0;
 	}
 	
 	public static World getInstance() {
 		if(World.instance == null) {
-			World.instance = new World(50, 50);
+			World.instance = new World(80, 100);
 		}
 		return(World.instance);
 	}
@@ -102,12 +90,12 @@ public class World {
 	//Gestion des morts
 	public static void queueMort(Animal a) {
 		World.morts.add(a);
+		World.getCase(a.getX(), a.getY()).delOccupant();
 	}
 	
 	public static void delMorts() {
 		for(Animal a: World.morts) {
 			World.animaux.remove(a);
-			World.getCase(a.getX(), a.getY()).delOccupant();
 		}
 		World.morts.clear();
 	}
@@ -146,9 +134,15 @@ public class World {
 		}
 		World.delMorts();
 		World.spawnAnimaux();
+		World.tours++;
 	}
 
 	public static boolean estTermine( ) {
+		if(World.animaux.isEmpty() && World.tours != 0) {
+			World.fini = true;
+			System.out.println("Fini!");
+			System.out.print("Il y a eu " + World.tours + " tours.");
+		}
 		return(World.fini);
 	}
 	

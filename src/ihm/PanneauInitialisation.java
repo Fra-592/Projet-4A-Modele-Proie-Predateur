@@ -18,6 +18,8 @@ public class PanneauInitialisation extends JPanel{
 	private JButton btnReset;
 	private JButton btnQuitter;
 	private FenetrePrincipale f;
+	private ResetAction lReset;
+	private EndAction lEnd;
 	
 	public PanneauInitialisation(FenetrePrincipale f) {
 		this.setLayout(new FlowLayout());
@@ -31,16 +33,22 @@ public class PanneauInitialisation extends JPanel{
 		
 		//Bouton réinitialisation
 		btnReset = new JButton("Réinitialiser");
-		btnReset.addActionListener(new ResetAction());
+		lReset = new ResetAction();
+		btnReset.addActionListener(lReset);
 		this.add(btnReset);
 		
 		//Bouton fin
 		btnQuitter = new JButton("Terminer");
-		btnQuitter.addActionListener(new EndAction());
+		lEnd = new EndAction();
+		btnQuitter.addActionListener(lEnd);
 		this.add(btnQuitter);
 		
 		this.add(new JLabel("Cliquez sur la carte pour ajouter un animal."));
 
+	}
+	
+	public void killListeners() {
+		btnReset.removeActionListener(lReset);
 	}
 	
 	private class ResetAction implements ActionListener{

@@ -32,7 +32,7 @@ public class Animal {
 			this.x = generateur.nextInt(World.getWidth());
 			this.y = generateur.nextInt(World.getHeight());
 			essais++;
-		} while(!World.getCase(this.x, this.y).estVide() && essais < (this.vue*4));
+		} while(!World.getCase(this.x, this.y).estVide() && essais < (10));
 		this.nourriture = nourriture;
 		this.vie = vie;
 		this.vue = vue;
@@ -51,7 +51,7 @@ public class Animal {
 			xtry = (int) Math.round(this.x + i * Math.sin(Math.toRadians(dir)));
 			ytry = (int) Math.round(this.y + i * Math.cos(Math.toRadians(dir)));
 			essais++;
-		} while(!World.getCase(xtry, ytry).estVide() && essais < (this.vue*4));
+		} while(!World.getCase(xtry, ytry).estVide() && essais < (10));
 		if(World.getCase(xtry, ytry).estVide()) {
 			this.bouge(xtry, ytry);
 		}
@@ -79,26 +79,17 @@ public class Animal {
 	protected void vieillit() {
 		this.vie--;
 		this.nourriture--;
-		if(this.vie < 1 || this.nourriture < 1) {
+		if(this.vie < 1) {
 			this.meurt();
 		}
 	}
 	
 	protected void meurt() {
+		System.out.println(this.getClass().getName() + " meurt en " + this.x + "," + this.y);
 		World.queueMort(this);
 	}
 	
-	protected boolean aFaim() {
-		return(this.nourriture <= 5);
-	}
-	
 	public void tour() throws CaseOccupeeException {
-		if(this.estEnVie()) {
-			this.cherche();
-			this.vieillit();
-		} else {
-			this.meurt();
-		}
 	}
 	
 	public int getX() {
@@ -110,11 +101,11 @@ public class Animal {
 	}
 	
 	protected void estAttaque() {
-		this.vie = 0;
+		this.meurt();
 	}
 	
 	public boolean estEnVie() {
-		return((this.vie > 0 && this.nourriture > 0));
+		return((this.vie > 0));
 	}
 
 	public Color getCouleur() {

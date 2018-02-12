@@ -8,52 +8,39 @@ import environnement.World;
 import erreurs.CaseOccupeeException;
 
 public class Loup extends Animal{
-	private static int population;
 	private static ArrayList<String> proies;
 	private static Color couleur;
 	
 	public Loup() throws CaseOccupeeException {
-		super(10, 5, 10, 10);
-		System.out.println("Loup spawné en " + this.x + "," + this.y + ".");
-
-		Loup.population++;
+		super(15, 10, 8, 8);
 	}
 	
 	public Loup(int xpos, int ypos) {
-		super(xpos, ypos, 10, 5, 10, 10);
-		System.out.println("Loup spawné en " + this.x + "," + this.y + ".");
-
-		Loup.population++;
+		super(xpos, ypos, 15, 10, 8, 8);
 	}
 	
 	
 	public static void initialize() {
 		Loup.proies = new ArrayList<String>();
 		Loup.proies.add("life.Mouton");
-		Loup.population = 0;
 		Loup.couleur = Color.GRAY;
 	}
 	
 	@Override
 	public void tour() throws CaseOccupeeException {
 		Animal cible;
-		if(this.chercheProies() && this.aFaim()) {
-			cible = this.getProcheProie();
-			this.chasse(cible);
+		if(this.estEnVie()) {
+			if(this.chercheProies()) {
+				cible = this.getProcheProie();
+				this.chasse(cible);
+			} else {
+				this.cherche();
+			}
+			this.vieillit();
 		} else {
-			this.cherche();
+			this.meurt();
 		}
-		this.vieillit();
-	}
-	
-	@Override
-	protected void meurt() {
-		super.meurt();
-		System.out.println("Loup mort en " + this.x + "," + this.y + ".");
-
-		Loup.population--;
-	}
-	
+	}	
 
 	private boolean chercheProies() {
 		Animal cible;
@@ -66,7 +53,6 @@ public class Loup extends Animal{
 				if(!tcase.estVide()) {
 					cible = tcase.getOccupant();
 					if(this.peutChasser(cible)) {
-						System.out.println("Loup voit un mouton.");
 						return(true);
 					}
 				}
@@ -82,7 +68,7 @@ public class Loup extends Animal{
 		double distance;
 		for(Animal a: liste) {
 			distance = Math.sqrt(Math.pow(this.x - a.x, 2) + Math.pow(this.y - a.y, 2));
-			if(distance < distancemin) {
+			if(distance < distancemin && this.peutChasser(a)) {
 				pproche = a;
 				distancemin = distance;
 			}
@@ -100,16 +86,11 @@ public class Loup extends Animal{
 	}
 	
 	private void mange(Animal cible) {
-		System.out.println("Loup mange.");
 		cible.estAttaque();
 		this.nourriture += cible.nourriture/2;
+		this.vie += cible.nourriture/4;
 	}
 	
-	public int getCount() {
-		return(Loup.population);
-	}
-	
-	@SuppressWarnings("static-access")
 	public Color getCouleur() {
 		return(Loup.couleur);
 	}
