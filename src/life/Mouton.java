@@ -33,8 +33,9 @@ public class Mouton extends Animal{
 			Animal cible;
 			if(this.cherchePredateurs()) {
 				cible = this.getProchePredateur();
-				this.aPeurDe(cible);
-				this.fuit(cible);
+				if(this.aPeurDe(cible)) {
+					this.fuit(cible);
+				}
 			} else {
 				this.cherche();
 			}
@@ -96,14 +97,17 @@ public class Mouton extends Animal{
 		if(this.y != cible.y) {
 			ydir = (this.y - cible.y)/Math.abs(this.y - cible.y);
 		}
+	
 		try {
 			xdir = this.x + (xdir * this.vitesse)/(Math.abs(xdir) + Math.abs(ydir));
 			ydir = this.y + (ydir * this.vitesse)/(Math.abs(xdir) + Math.abs(ydir));
-		} catch(ArithmeticException e) {
-			System.out.println(xdir + ydir);
+		} catch (ArithmeticException e) {
+			e.printStackTrace();
 		}
 
-		this.bouge(xdir, ydir);
+		if(xdir != 0 && ydir !=0) {
+			this.bouge(xdir, ydir);
+		}
 	}
 	
 	public static Color getColor() {

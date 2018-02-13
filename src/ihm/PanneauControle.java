@@ -33,7 +33,7 @@ public class PanneauControle extends JPanel{
 		this.add(btnPause);
 		
 		this.add(new JLabel("Vitesse:"));
-		setVitesse = new JSlider(1, 20, 1);
+		setVitesse = new JSlider(1, 5, 1);
 		this.add(setVitesse);
 	}
 	

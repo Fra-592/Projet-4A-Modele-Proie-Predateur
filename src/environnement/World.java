@@ -89,8 +89,8 @@ public class World {
 	
 	//Gestion des morts
 	public static void queueMort(Animal a) {
-		World.morts.add(a);
 		World.getCase(a.getX(), a.getY()).delOccupant();
+		World.morts.add(a);
 	}
 	
 	public static void delMorts() {
@@ -107,10 +107,10 @@ public class World {
 	}
 	
 	public static Case getCase(int x, int y) {
-		while(x < 0) {
+		while(x <= 0) {
 			x += World.width;
 		}
-		while(y < 0) {
+		while(y <= 0) {
 			y += World.height;
 		}
 		x = x%(World.width);

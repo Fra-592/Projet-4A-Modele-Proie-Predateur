@@ -22,7 +22,7 @@ public class Simulation implements Runnable {
 				if(enCours) {
 					try {
 						World.tour();
-						TimeUnit.MILLISECONDS.sleep(10000/f.controleSimulation.getSpeedValue());
+						TimeUnit.MILLISECONDS.sleep(2000/f.controleSimulation.getSpeedValue());
 					} catch (CaseOccupeeException | InterruptedException e) {
 						e.printStackTrace();
 					}

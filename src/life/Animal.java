@@ -60,17 +60,17 @@ public class Animal {
 	protected void bouge(int x, int y) {
 		try {
 			World.getCase(this.x, this.y).delOccupant();
-			World.getCase(x, y).setOccupant(this);
-			while(x < 0) {
+			while(x <= 0) {
 				x += World.getWidth();
 			}
-			while(y < 0) {
+			while(y <= 0) {
 				y += World.getHeight();
 			}
 			x = x%(World.getWidth());
 			y = y%(World.getHeight());
 			this.x = x;
 			this.y = y;
+			World.getCase(x, y).setOccupant(this);
 		} catch (CaseOccupeeException e) {
 			e.printStackTrace();
 		}
@@ -85,7 +85,7 @@ public class Animal {
 	}
 	
 	protected void meurt() {
-		System.out.println(this.getClass().getName() + " meurt en " + this.x + "," + this.y);
+		this.vie = 0;
 		World.queueMort(this);
 	}
 	
